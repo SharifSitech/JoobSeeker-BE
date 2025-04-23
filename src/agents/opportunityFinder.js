@@ -30,7 +30,7 @@ User Profile:
 - Skills: ${profile.skills.join(", ")}
 
 Job Listings:
-${JSON.stringify(jobs.slice(0, 10))} 
+${JSON.stringify(jobs)} 
 `;
 
     try {
@@ -44,15 +44,5 @@ ${JSON.stringify(jobs.slice(0, 10))}
         return {error: true, message: error.message};
     }
 }
-
-// async function summarizeJobs(userProfile, jobList) {
-//     const jobsText = jobList.map((job, i) => `${i + 1}. ${job.title} at ${job.company}`).join("\n");
-//
-//     const response = await llm.invoke([
-//         new HumanMessage(`User profile: ${JSON.stringify(userProfile)}\n\nHere are job listings:\n${jobsText}\n\nWhich ones fit this user best and why? Return JSON with 'recommendedJobs'.`)
-//     ]);
-//
-//     return response.content;
-// }
 
 module.exports = {summarizeJobs}
