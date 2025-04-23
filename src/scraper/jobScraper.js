@@ -3,11 +3,10 @@ const cheerio = require("cheerio");
 
 async function scrapeJobs(searchTerm = "developer") {
     const query = searchTerm.replace(" ", "+");
-    // const url = `https://wuzzuf.net/search/jobs/?q=${query}&a=navbl`;
-    const url = `https://wuzzuf.net/a/Jobs-in-Riyadh?ref=browse_jobs_by_locationq=${query}&a=navbl`;
+    const url = `${process.env.JOBS_WEB_SOURCE}ref=browse_jobs_by_location&q=${query}&a=navbl`;
 
     try {
-        const { data } = await axios.get(url);
+        const {data} = await axios.get(url);
         const $ = cheerio.load(data);
         const jobs = [];
 
@@ -19,7 +18,7 @@ async function scrapeJobs(searchTerm = "developer") {
             let logo = $(el).find(".css-17095x3").attr("src");
 
             if (title && company && link && location && logo) {
-                jobs.push({ title, company, link, location, logo });
+                jobs.push({title, company, link, location, logo});
             }
         });
 
@@ -30,4 +29,4 @@ async function scrapeJobs(searchTerm = "developer") {
     }
 }
 
-module.exports = { scrapeJobs };
+module.exports = {scrapeJobs};

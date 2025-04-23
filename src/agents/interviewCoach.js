@@ -1,14 +1,11 @@
-const { ChatOpenAI } = require("@langchain/openai");
-const { SystemMessage, HumanMessage } = require("@langchain/core/messages");
-const { JsonOutputParser } = require("@langchain/core/output_parsers");
+const {SystemMessage, HumanMessage} = require("@langchain/core/messages");
+const {JsonOutputParser} = require("@langchain/core/output_parsers");
+const createLLM = require("../utils/llm");
 
-const llm = new ChatOpenAI({
-    modelName: "gpt-3.5-turbo",
-    temperature: 0.7
-});
+const llm = createLLM();
 
 async function interviewCoachAgent(profile) {
-    const { yearsOfExperience, skills, education } = profile;
+    const {yearsOfExperience, skills, education} = profile;
 
     const systemPrompt = `
 You are an expert technical interview coach for software developers.
@@ -42,14 +39,12 @@ Profile:
     const parser = new JsonOutputParser();
 
     try {
-        const response = await llm
+        return await llm
             .pipe(parser)
             .invoke([
                 new SystemMessage(systemPrompt),
                 new HumanMessage(userPrompt)
             ]);
-
-        return response;
     } catch (error) {
         return {
             error: "Something went wrong",
@@ -58,4 +53,4 @@ Profile:
     }
 }
 
-module.exports = { interviewCoachAgent };
+module.exports = {interviewCoachAgent};

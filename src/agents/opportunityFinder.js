@@ -1,11 +1,7 @@
-const {ChatOpenAI} = require("@langchain/openai");
 const {SystemMessage, HumanMessage} = require("@langchain/core/messages");
+const createLLM = require("../utils/llm");
 
-const model = new ChatOpenAI({
-    modelName: "gpt-3.5-turbo",
-    openAIApiKey: process.env.OPENAI_API_KEY,
-    temperature: 0.3,
-});
+const llm = createLLM();
 
 async function summarizeJobs(profile, jobs) {
     const systemPrompt = `
@@ -38,21 +34,21 @@ ${JSON.stringify(jobs.slice(0, 10))}
 `;
 
     try {
-        const res = await model.invoke([
+        const res = await llm.invoke([
             new SystemMessage(systemPrompt),
             new HumanMessage(userPrompt)
         ]);
 
         return JSON.parse(res.content);
     } catch (error) {
-        return { error: true, message: error.message };
+        return {error: true, message: error.message};
     }
 }
 
 // async function summarizeJobs(userProfile, jobList) {
 //     const jobsText = jobList.map((job, i) => `${i + 1}. ${job.title} at ${job.company}`).join("\n");
 //
-//     const response = await model.invoke([
+//     const response = await llm.invoke([
 //         new HumanMessage(`User profile: ${JSON.stringify(userProfile)}\n\nHere are job listings:\n${jobsText}\n\nWhich ones fit this user best and why? Return JSON with 'recommendedJobs'.`)
 //     ]);
 //

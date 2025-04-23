@@ -1,25 +1,21 @@
 require('dotenv').config();  // Make sure this is at the top of your file
 
 const express = require('express');
-const userRoutes = require('./routes/userRoutes');
 const cors = require("cors");
-const mainRoutes = require('./routes/mainRoutes');
-const profileRoutes = require("./routes/profileRoutes");
-const jobRoutes = require("./routes/jobsRoutes");
-const interviewRoutes = require("./routes/interviewRoutes");
+const profileRoutes = require("./src/routes/profileRoutes");
+const jobRoutes = require("./src/routes/jobsRoutes");
+const interviewRoutes = require("./src/routes/interviewRoutes");
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT;
 
 app.use(cors({
-    origin: "http://localhost:8080", // React app URL
+    origin: process.env.ALLOW_ORIGIN_FOR,
     credentials: true,
 }));
 app.use(express.json());
 
 // Use Routes
-app.use('/', mainRoutes);
-app.use('/users', userRoutes);
 app.use('/api/profile', profileRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/interview", interviewRoutes);
