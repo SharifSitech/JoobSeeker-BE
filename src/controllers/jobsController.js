@@ -35,7 +35,6 @@ exports.findWithFeedback = async (req, res) => {
             education
         });
 
-        // Combine the results into one response
         res.json({
             jobs,
             recommendations,
