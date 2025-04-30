@@ -1,3 +1,4 @@
+const {errorHandler} = require("../utils/errorHandler");
 const {interviewCoachAgent} = require("../agents/interviewCoach");
 
 exports.interviewCoach = async (req, res) => {
@@ -6,7 +7,6 @@ exports.interviewCoach = async (req, res) => {
 
         res.json({feedback: result});
     } catch (error) {
-        console.error("Interview Coach error:", error);
-        res.status(500).json({error: "Failed to get interview coaching feedback"});
+        errorHandler(res, error, "Interview Coach Error");
     }
 }

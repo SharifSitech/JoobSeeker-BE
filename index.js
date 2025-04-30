@@ -5,6 +5,7 @@ const cors = require("cors");
 const profileRoutes = require("./src/routes/profileRoutes");
 const jobRoutes = require("./src/routes/jobsRoutes");
 const interviewRoutes = require("./src/routes/interviewRoutes");
+const requestLogger = require('./src/middlewares/loggerMiddleware');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -14,9 +15,10 @@ app.use(cors({
     credentials: true,
 }));
 app.use(express.json());
+app.use(requestLogger); // Apply to all routes
 
 // Use Routes
-app.use('/api/profile', profileRoutes);
+app.use("/api/profile", profileRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/interview", interviewRoutes);
 

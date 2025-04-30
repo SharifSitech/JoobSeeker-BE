@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
   "dependencies": {
     "@langchain/community": "^0.3.41",
     "@langchain/core": "^0.3.45",
@@ -9,6 +13,10 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "langchain": "^0.3.23",
-    "openai": "^4.95.1"
+    "openai": "^4.95.1",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }

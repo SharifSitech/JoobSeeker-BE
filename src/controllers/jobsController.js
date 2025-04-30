@@ -1,4 +1,5 @@
 const {scrapeJobs} = require("../scraper/jobScraper");
+const {errorHandler} = require("../utils/errorHandler");
 const {summarizeJobs} = require("../agents/opportunityFinder");
 const {interviewCoachAgent} = require("../agents/interviewCoach");
 
@@ -13,9 +14,8 @@ exports.searchJobs = async (req, res) => {
         const recommendations = await summarizeJobs(req.body, jobs); // Optional: rank jobs based on the user's profile
 
         res.json({jobs, recommendations});
-    } catch (e) {
-        console.error("🔴 Job search failed:", e);
-        res.status(500).json({error: "Job search failed", details: e.message});
+    } catch (error) {
+        errorHandler(res, error, "Job search failed");
     }
 }
 
@@ -42,7 +42,6 @@ exports.findWithFeedback = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Error processing the combined search:", error);
-        res.status(500).json({error: "Something went wrong", details: error.message});
+        errorHandler(res, error, "Error processing the combined search");
     }
 }

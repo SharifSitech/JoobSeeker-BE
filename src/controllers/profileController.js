@@ -1,4 +1,5 @@
 const {analyzeProfile} = require("../agents/profileAnalyzer");
+const {errorHandler} = require("../utils/errorHandler");
 
 exports.profileAnalyzer = async (req, res) => {
     try {
@@ -6,8 +7,7 @@ exports.profileAnalyzer = async (req, res) => {
         const result = await analyzeProfile(text);
 
         res.json(result);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({error: "Profile analysis failed"});
+    } catch (error) {
+        errorHandler(res, error, "Profile analysis failed");
     }
 }
